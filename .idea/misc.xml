@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/AndroidStudioProjects/U3_PRACTICA2_BASEDEDATOSFIREBASECLOUDFIRESTORE/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/AndroidStudioProjects/U3_PRACTICA2_BASEDEDATOSFIREBASECLOUDFIRESTORE/app/src/main/res/drawable-v24/ic_launcher_background.xml" value="0.21666666666666667" />
+        <entry key="..\:/AndroidStudioProjects/U3_PRACTICA2_BASEDEDATOSFIREBASECLOUDFIRESTORE/app/src/main/res/layout/activity_main.xml" value="0.14" />
         <entry key="..\:/AndroidStudioProjects/U3_PRACTICA2_BASEDEDATOSFIREBASECLOUDFIRESTORE/app/src/main/res/layout/activity_main2.xml" value="0.20833333333333334" />
+        <entry key="..\:/AndroidStudioProjects/U3_PRACTICA2_BASEDEDATOSFIREBASECLOUDFIRESTORE/app/src/main/res/layout/activity_main3.xml" value="0.18854166666666666" />
         <entry key="..\:/AndroidStudioProjects/U3_PRACTICA2_BASEDEDATOSFIREBASECLOUDFIRESTORE/app/src/main/res/layout/activity_splash_screen.xml" value="0.20416666666666666" />
       </map>
     </option>

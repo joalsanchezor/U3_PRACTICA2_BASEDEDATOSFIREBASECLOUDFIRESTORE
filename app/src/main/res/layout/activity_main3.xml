@@ -7,7 +7,7 @@
     android:background="@drawable/fondonotas"
     android:padding="15dp"
     android:orientation="vertical"
-    tools:context=".MainActivity2">
+    tools:context=".MainActivity3">
 
     <EditText
         android:id="@+id/contenido"
@@ -36,28 +36,28 @@
         android:textSize="25dp" />
 
     <ImageView
-        android:id="@+id/btn_nueva_nueva"
+        android:id="@+id/btn_editar"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_below="@id/contenido"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:src="@drawable/save" />
+        android:src="@drawable/editar" />
 
     <ImageView
-        android:id="@+id/regresar"
+        android:id="@+id/btn_regresar"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_below="@id/btn_nueva_nueva"
+        android:layout_below="@id/contenido"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="100dp"
         android:src="@drawable/regresar" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nota nueva"
+        android:text="Editar nota"
         android:textColor="@color/white"
         android:textSize="50dp"
         android:textStyle="bold" />

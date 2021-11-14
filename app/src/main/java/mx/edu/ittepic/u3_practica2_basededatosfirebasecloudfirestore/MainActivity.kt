@@ -17,107 +17,89 @@ import java.io.InputStreamReader
 
 
 class MainActivity : AppCompatActivity() {
-    var titulo: String = ""
-    var contenido: String = ""
-    var notas = ArrayList<String>()
-    var nombreNota: String = ""
+    var idNotas = ArrayList<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        mostrarNotas()
+
         val abrir = findViewById<ImageView>(R.id.btnBuscar)
-        val borrar = findViewById<ImageView>(R.id.btneliminar)
 
         val nueva_nota = findViewById<ImageView>(R.id.new_nota)
         nueva_nota.setOnClickListener {
-            var ventanaNotaNueva = Intent(this,MainActivity2::class.java)
-            startActivity(ventanaNotaNueva)
-        }
-
-        abrir.setOnClickListener(){
-            abrirNotas()
-        }
-
-        borrar.setOnClickListener {
-            obtenerNota()
+            nuevaNota()
         }
 
     }
 
-    private fun abrirNotas() {
-        val buscar = EditText(this)
-        buscar.inputType = InputType.TYPE_CLASS_TEXT
-        AlertDialog.Builder(this)
-            .setTitle("ATENCION")
-            .setMessage("Nombre Nota:")
-            .setView(buscar)
-            .setPositiveButton("ABRIR") { d, i ->
-                nombreNota = buscar.text.toString()+".txt"
-                leerNotas(nombreNota)
-            }
-            .setNegativeButton("CANCELAR") { d, i ->
-                d.cancel()
-            }
-            .show()
+    public fun mostrarNotas(){
+        val resultado = Nota(this).consulta()
+
+        listaNotas.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultado)
+        idNotas.clear()
+        idNotas = Nota(this).obtenerIDs()
+
+        if(!idNotas.isEmpty()) {
+            activarEvento(listaNotas)
+        }
     }
 
-    private fun leerNotas(nombreNota: String) {
-        try {
-            val archivo = BufferedReader(InputStreamReader(openFileInput(nombreNota)))
-            contenido = archivo.readLine()
-            archivo.close()
-            crearNotas()
-            notas.add(nombreNota)
-        } catch (io: IOException) {
-            AlertDialog.Builder(this)
-                .setTitle("ERROR!")
-                .setMessage(io.message)
-                .setNegativeButton("ACEPTAR") { dialog, i ->
-                    dialog.cancel()
+    private fun activarEvento(listaCapturados: ListView) {
+        listaCapturados.setOnItemClickListener { adapterView, view, indiceSeleccionado, l ->
+
+            val idSeleccionado = idNotas[indiceSeleccionado]
+            android.app.AlertDialog.Builder(this)
+                .setTitle("ATENCIÓN")
+                .setMessage("¿QUÉ ACCIÓN DESEA HACER?")
+                .setPositiveButton("EDITAR"){d, i-> actualizar(idSeleccionado)}
+                .setNegativeButton("ELIMINAR"){d,i-> eliminar(idSeleccionado)}
+                .setNeutralButton("CANCELAR"){d,i->
+                    d.cancel()
                 }
                 .show()
         }
     }
 
-    private fun crearNotas() {
-        val notasTxt = TextView(this)
-        notasTxt.setBackgroundColor(Color.YELLOW)
-        notasTxt.setPadding(60, 60, 60, 60)
-        notasTxt.setText(contenido)
-        notasTxt.setTextColor(Color.BLUE)
-        contenidoNotas.addView(notasTxt)
-        /*val notasLista = ListView(this)
-        notasLista.setBackgroundColor(Color.YELLOW)
-        notasLista.addView(contenido)*/
+    private fun nuevaNota(){
+        var ventanaNotaNueva = Intent(this,MainActivity2::class.java)
+        startActivity(ventanaNotaNueva)
+
+        android.app.AlertDialog.Builder(this).setMessage("¿DESEAS ACTUALIZAR LA LISTA?")
+            .setPositiveButton("SI"){d,i-> mostrarNotas()}
+            .setNegativeButton("NO"){d,i-> d.cancel()}
+            .show()
     }
 
-    private fun obtenerNota(){
-        val buscar = EditText(this)
-        buscar.inputType = InputType.TYPE_CLASS_TEXT
-        AlertDialog.Builder(this)
-            .setTitle("ELIMINACIÓN DE NOTA")
-            .setMessage("Nombre nota:")
-            .setView(buscar)
-            .setPositiveButton("ELIMINAR") { d, i ->
-                nombreNota = buscar.text.toString()+".txt"
-                borrarNota(nombreNota)
+    private fun actualizar(idSeleccionado: Int) {
+        val intento = Intent(this, MainActivity3::class.java)
+        intento.putExtra("idActualizar",idSeleccionado.toString())
+        startActivity(intento)
+
+        android.app.AlertDialog.Builder(this).setMessage("¿DESEAS ACTUALIZAR LA LISTA?")
+            .setPositiveButton("SI"){d,i-> mostrarNotas()}
+            .setNegativeButton("NO"){d,i-> d.cancel()}
+            .show()
+    }
+
+    private fun eliminar(idSeleccionado: Int) {
+        android.app.AlertDialog.Builder(this)
+            .setTitle("AVISO IMPORTANTE")
+            .setMessage("¿SEGURO QUE DESEAS ELIMINAR LA NOTA: ID ${idSeleccionado}?")
+            .setPositiveButton("SÍ"){d,i->
+                val resultado = Nota(this).eliminar(idSeleccionado)
+                if(resultado){
+                    Toast.makeText(this,"SE ELIMINÓ LA NOTA", Toast.LENGTH_LONG).show()
+                    mostrarNotas()
+                }else {
+                    Toast.makeText(this,"ERROR AL ELIMINAR LA NOTA", Toast.LENGTH_LONG).show()
+                }
             }
-            .setNegativeButton("CANCELAR") { d, i ->
+            .setNegativeButton("NO"){d,i->
                 d.cancel()
             }
             .show()
     }
 
-    private fun borrarNota(nombreNota: String){
-        try {
-            val dir = filesDir
-            val archivoE = File(dir,nombreNota)
-            archivoE.delete()
-
-            Toast.makeText(this, "ARCHIVO ELIMINADO",Toast.LENGTH_LONG).show()
-        } catch (e: Exception) {
-            Toast.makeText(this, "ERROR AL ELIMINAR" + e.message, Toast.LENGTH_LONG).show()
-        }
-    }
 }

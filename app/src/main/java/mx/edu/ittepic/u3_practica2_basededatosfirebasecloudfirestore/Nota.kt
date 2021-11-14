@@ -2,12 +2,15 @@ package mx.edu.ittepic.u3_practica2_basededatosfirebasecloudfirestore
 
 import android.content.ContentValues
 import android.content.Context
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Nota(p: Context) {
     var titulo = ""
     var contenido = ""
-    var hora = ""
-    var fecha = ""
+    var hora = obtenerHoraActual("US/Mountain")
+    var fecha = obtenerFechaActual("US/Mountain")
     var pnt = p
 
     fun insertar() : Boolean{
@@ -91,5 +94,24 @@ class Nota(p: Context) {
         val resultado = tablaNota.update("NOTA", dato, "ID=?", arrayOf(idActualizar))
         if(resultado==0) return false
         return true
+    }
+
+    fun obtenerFechaActual(zonaHoraria : String) : String{
+        var formato = "yyyy-MM-dd"
+        return obtenerFechaConFormato(formato, zonaHoraria)
+    }
+
+    fun obtenerHoraActual(zonaHoraria : String) : String{
+        var formato = "HH:mm:ss"
+        return obtenerFechaConFormato(formato, zonaHoraria)
+    }
+
+    fun obtenerFechaConFormato(formato: String, zonaHoraria: String): String {
+        val calendar = Calendar.getInstance()
+        val date = calendar.time
+        val sdf: SimpleDateFormat
+        sdf = SimpleDateFormat(formato)
+        sdf.timeZone = TimeZone.getTimeZone(zonaHoraria)
+        return sdf.format(date)
     }
 }
