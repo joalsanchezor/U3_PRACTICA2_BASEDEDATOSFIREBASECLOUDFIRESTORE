@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondonotas"
+    android:padding="15dp"
+    android:orientation="vertical"
+    tools:context=".MainActivity2">
+
+    <EditText
+        android:id="@+id/contenido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:background="@color/white"
+        android:hint="Introduce el texto aquí..."
+        android:textSize="30dp"
+        android:layout_marginTop="100dp"
+        android:textColor="@color/black"
+        android:paddingBottom="130dp"/>
+
+    <ImageView
+        android:id="@+id/btn_nueva_nueva"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/radioGroup2"
+        android:src="@drawable/save"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nota nueva"
+        android:textColor="@color/white"
+        android:textSize="50dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Seleccione el almacenamiento:"
+        android:layout_below="@id/contenido"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/textView2">
+
+        <RadioButton
+            android:id="@+id/interna"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:checked="true"
+            android:text="Memoria Interna"/>
+
+        <RadioButton
+            android:id="@+id/externa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:text="Memoria Externa"/>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Seleccione como desea guardar nota:"
+        android:layout_below="@id/radioGroup"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/textView3">
+
+        <RadioButton
+            android:id="@+id/manual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:checked="true"
+            android:text="Nombre dinámico"/>
+
+        <RadioButton
+            android:id="@+id/dinamico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:text="Nombre personalizado"/>
+
+        <EditText
+            android:id="@+id/nombreArchivo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            android:background="@color/white"
+            android:hint="Ingrese nombre de la nota" />
+    </RadioGroup>
+</RelativeLayout>

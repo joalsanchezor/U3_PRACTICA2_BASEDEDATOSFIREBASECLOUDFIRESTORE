@@ -1,18 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@drawable/fondonotas"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notes"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:padding="20dp"
+            android:textSize="40dp"/>
+        <ImageView
+            android:id="@+id/btnBuscar"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="26dp"
+            app:srcCompat="@drawable/buscar"/>
+    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:layout_margin="20dp">
+        <LinearLayout
+            android:id="@+id/contenidoNotas"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginTop="230dp"
+            android:layout_marginLeft="120dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/editar"/>
+        <ImageView
+            android:id="@+id/btneliminar"
+            android:layout_marginTop="230dp"
+            android:layout_marginLeft="110dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/eliminar"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/new_nota"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="185dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/nuevo"/>
+</LinearLayout>
