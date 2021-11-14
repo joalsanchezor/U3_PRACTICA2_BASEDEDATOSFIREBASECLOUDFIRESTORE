@@ -35,11 +35,25 @@
         android:layout_height="648dp"
         android:background="@color/white" />
 
-    <ImageView
-        android:id="@+id/new_nota"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="185dp"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/nuevo"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/new_nota"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="95dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/nuevo" />
+
+        <ImageView
+            android:id="@+id/sincronizar"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="105dp"
+            android:layout_marginTop="22dp"
+            android:src="@drawable/sincronizar" />
+    </LinearLayout>
 </LinearLayout>

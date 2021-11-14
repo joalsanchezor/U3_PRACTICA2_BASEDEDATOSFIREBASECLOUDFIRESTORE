@@ -7,6 +7,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class Nota(p: Context) {
+    var id = ""
     var titulo = ""
     var contenido = ""
     var hora = obtenerHoraActual("US/Mountain")
@@ -72,14 +73,14 @@ class Nota(p: Context) {
         var tablaNota = BaseDatos(pnt, "notasPractica",null, 1).readableDatabase
         val cursor = tablaNota.query("NOTA", arrayOf("*"), "ID=?", arrayOf(idABuscar), null, null, null)
 
-        val artista = Nota(MainActivity())
+        val nota = Nota(MainActivity())
         if(cursor.moveToFirst()){
-            artista.titulo = cursor.getString(1)
-            artista.contenido = cursor.getString(2)
-            artista.hora = cursor.getString(3)
-            artista.fecha = cursor.getString(4)
+            nota.titulo = cursor.getString(1)
+            nota.contenido = cursor.getString(2)
+            nota.hora = cursor.getString(3)
+            nota.fecha = cursor.getString(4)
         }
-        return artista
+        return nota
     }
 
     fun actualizar(idActualizar : String) : Boolean{
