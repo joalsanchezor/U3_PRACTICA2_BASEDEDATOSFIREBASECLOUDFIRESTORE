@@ -28,6 +28,10 @@ class MainActivity2 : AppCompatActivity() {
                 nombreArchivoS = UUID.randomUUID().toString()
             }
             val nota = Nota(this)
+            if(nota.buscarNota(nombreArchivoS) != -44){
+                Toast.makeText(this, "ESE NOMBRE YA EXISTE, SE CREARÁ UNO DINÁMICO.", Toast.LENGTH_LONG).show()
+                nombreArchivoS = UUID.randomUUID().toString()
+            }
             nota.titulo = nombreArchivoS
             nota.contenido = contenido.text.toString()
 
