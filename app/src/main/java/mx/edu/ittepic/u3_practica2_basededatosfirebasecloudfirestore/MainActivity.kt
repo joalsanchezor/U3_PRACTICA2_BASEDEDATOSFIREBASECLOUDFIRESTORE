@@ -2,10 +2,8 @@ package mx.edu.ittepic.u3_practica2_basededatosfirebasecloudfirestore
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.Toast
+import android.text.InputType
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,14 +13,13 @@ class MainActivity : AppCompatActivity() {
     var idNotas = ArrayList<Int>()
     val baseRemota = FirebaseFirestore.getInstance()
     var notas = ArrayList<Nota>()
+    var notasID = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         mostrarNotas()
-
-        val abrir = findViewById<ImageView>(R.id.btnBuscar)
 
         val nueva_nota = findViewById<ImageView>(R.id.new_nota)
         nueva_nota.setOnClickListener {
@@ -31,8 +28,36 @@ class MainActivity : AppCompatActivity() {
 
         val sincronizar = findViewById<ImageView>(R.id.sincronizar)
         sincronizar.setOnClickListener {
+            alerta("SINCRONIZANDO... POR FAVOR ESPERE.")
             sincronizarDatos()
         }
+
+        val buscar = findViewById<ImageView>(R.id.btnBuscar)
+        buscar.setOnClickListener {
+            buscarNota()
+        }
+    }
+
+    private fun buscarNota() {
+        val buscar = EditText(this)
+
+        buscar.inputType = InputType.TYPE_CLASS_TEXT
+        AlertDialog.Builder(this)
+            .setTitle("BÚSQUEDA DE NOTA")
+            .setMessage("Escriba el título de la Nota:")
+            .setView(buscar)
+            .setPositiveButton("BUSCAR") { d, i ->
+                val resultado = Nota(this).buscarNota(buscar.text.toString())
+                if (resultado!= -44){
+                    actualizar(resultado)
+                }else{
+                    alerta("NO SE ENCONTRÓ LA NOTA")
+                }
+            }
+            .setNegativeButton("CANCELAR") { d, i ->
+                d.cancel()
+            }
+            .show()
     }
 
     private fun sincronizarDatos() {
@@ -42,24 +67,49 @@ class MainActivity : AppCompatActivity() {
         val nota = Nota(MainActivity())
         var notas: MutableMap<String, String> = HashMap()
 
+        baseRemota.collection("notas").addSnapshotListener { querySnapshot, error ->
+            if(error !=null)
+            {
+                mensaje("ERROR DE CONEXIÓN")
+                return@addSnapshotListener
+            }
+            for(nota in querySnapshot!!){
+                notasID.add(nota.id)
+            }
+        }
+
         //SE INSERTARÁ EL DATO CUANDO ÉSTE NO EXISTA PREVIAMENTE EN LA COLECCIÓN
         if(cursor.moveToFirst()){
 
             do{
-                notas.put("ID", cursor.getString(0))
-                notas.put("TITULO", cursor.getString(1))
-                notas.put("CONTENIDO", cursor.getString(2))
-                notas.put("HORA", cursor.getString(3))
-                notas.put("FECHA", cursor.getString(4))
+                if(notasID.contains(cursor.getString(0))){
+                    baseRemota.collection("notas")
+                        .document(cursor.getString(0))
+                        .update(
+                            "TITULO", cursor.getString(1),
+                           "CONTENIDO", cursor.getString(2),
+                            "HORA", cursor.getString(3),
+                            "FECHA", cursor.getString(4)
+                        )
+                        .addOnFailureListener {
+                            mensaje("ERROR: ${it.message}")
+                        }
+                }else{
+                    notas.put("ID", cursor.getString(0))
+                    notas.put("TITULO", cursor.getString(1))
+                    notas.put("CONTENIDO", cursor.getString(2))
+                    notas.put("HORA", cursor.getString(3))
+                    notas.put("FECHA", cursor.getString(4))
 
-                baseRemota.collection("notas").document("${cursor.getString(0)}")
-                    .set(notas)
-                    .addOnSuccessListener {
-                        alerta("SE SINCRONIZÓ CORRECTAMENTE")
-                    }
-                    .addOnFailureListener {
-                        mensaje("ERROR: ${it.message}")
-                    }
+                    baseRemota.collection("notas").document("${cursor.getString(0)}")
+                        .set(notas)
+                        .addOnSuccessListener {
+                            alerta("SE SINCRONIZÓ CORRECTAMENTE")
+                        }
+                        .addOnFailureListener {
+                            mensaje("ERROR: ${it.message}")
+                        }
+                }
             }while(cursor.moveToNext())
         }
     }

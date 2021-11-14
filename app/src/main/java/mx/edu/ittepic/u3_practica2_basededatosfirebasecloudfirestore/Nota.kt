@@ -83,6 +83,18 @@ class Nota(p: Context) {
         return nota
     }
 
+    fun buscarNota(nombreNota:String) : Int {
+        var tablaNota = BaseDatos(pnt, "notasPractica",null, 1).readableDatabase
+        val cursor = tablaNota.query("NOTA", arrayOf("*"), "TITULO=? COLLATE NOCASE", arrayOf(nombreNota), null, null, null)
+        var resultado = -44
+
+        val nota = Nota(MainActivity())
+        if(cursor.moveToFirst()){
+            resultado = cursor.getInt(0)
+        }
+        return resultado
+    }
+
     fun actualizar(idActualizar : String) : Boolean{
         var tablaNota = BaseDatos(pnt, "notasPractica",null, 1).writableDatabase
         val dato = ContentValues()
